@@ -14,13 +14,12 @@ custom_fields:
   category: travel
   field_type: author_bio
   description: Public Transport Disruptions for Vienna (Wiener Linien) provided by the Wiener Linien API. Image loaded from wikipedia.org
-  github_url: https://github.com/macusercom/
+  github_url: https://github.com/Macusercom/TRMNL-Vienna-Public-Transport-Disruptions/
 - keyname: wl_lines
   field_type: multi_string
   name: Wiener Linien Public Transport Lines
   description: Enter one or more IDs
   placeholder: U1, U4, 49, 62, 8A, S3,...
   help_text: One public transport line per field
-  github_url: http://github.com/macusercom/
 name: Vienna Public Transport Disruptions
 refresh_interval: 60
