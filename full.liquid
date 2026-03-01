@@ -1,0 +1,136 @@
+{% assign wl = trmnl.plugin_settings.custom_fields_values.wl_lines | default: "" %}
+{% assign monitored_lines = wl | remove: " " | split: "," %}
+
+{% capture keys -%}
+{%- for t in data.trafficInfos -%}
+  {%- if t.status == "active" -%}
+    {%- if t.time and t.time.start -%}{{ t.time.start }}{%- else -%}0000-00-00T00:00:00.000+0000{%- endif -%}|{{ t.name }}||
+  {%- endif -%}
+{%- endfor -%}
+{%- endcapture %}
+{%- assign keys = keys | split: "||" | sort | reverse -%}
+
+{% capture any_flag -%}
+{%- for t in data.trafficInfos -%}
+  {%- if t.status == "active" -%}
+    {%- for line in t.relatedLines -%}
+      {%- if monitored_lines contains line -%}1{%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- endcapture %}
+{% assign any_flag = any_flag | strip %}
+
+<div class="layout layout--col layout--stretch">
+  {% if any_flag contains "1" %}
+
+    <div class="columns" data-overflow-max-cols="1" data-overflow-counter="true">
+      <div class="column">
+
+        {% for k in keys %}
+          {% if k contains "|" %}
+            {% assign info_name = k | split: "|" | last %}
+            {% for t in data.trafficInfos %}
+              {% if t.status == "active" and t.name == info_name %}
+
+                {% capture is_relevant %}{% for line in t.relatedLines %}{% if monitored_lines contains line %}1{% endif %}{% endfor %}{% endcapture %}
+                {% assign is_relevant = is_relevant | strip %}
+                {% if is_relevant contains "1" %}
+
+                  <div class="item item--emphasis-2">
+                    <div class="meta"></div>
+                    <div class="content">
+
+                      <div class="flex gap--small flex--left flex--center-y">
+                        {% for line in t.relatedLines %}
+                          {% if monitored_lines contains line %}
+                            <span class="label label--large label--inverted">{{ line }}</span>
+                          {% endif %}
+                        {% endfor %}
+                        <span class="title title--large" data-clamp="1">{{ t.title | split: ": " | last }}</span>
+                      </div>
+
+                      {% assign raw = t.description | replace: "Grund :", "Grund:" | strip %}
+
+                      {% assign reason = "" %}
+                      {% assign duration = "" %}
+                      {% assign desc = raw %}
+
+                      {%- if raw contains "Grund:" -%}
+                        {% assign reason = raw | split: "Grund:" | last | strip %}
+                        {%- assign reason_last = reason | slice: -1 -%}
+                        {%- if reason_last == "." -%}
+                          {%- assign reason_len = reason | size | minus: 1 -%}
+                          {%- assign reason = reason | slice: 0, reason_len -%}
+                        {%- endif -%}
+                        {% assign desc = raw | split: "Grund:" | first | strip %}
+                      {%- endif -%}
+
+                      {%- if desc contains "Voraussichtliche Dauer:" -%}
+                        {% assign duration = desc | split: "Voraussichtliche Dauer:" | last | strip %}
+                        {% assign duration = duration | remove: "." | strip %}
+                        {% assign desc     = desc | split: "Voraussichtliche Dauer:" | first | strip %}
+                      {%- endif -%}
+
+                      {%- if desc | slice: 0, 5 == "Linie" and desc contains ":" -%}
+                        {% assign parts = desc | split: ":" %}
+                        {% capture rest %}{% for p in parts %}{% if forloop.index0 > 0 %}{% if forloop.index0 > 1 %}:{% endif %}{{ p }}{% endif %}{% endfor %}{% endcapture %}
+                        {% assign desc = rest | strip %}
+                      {%- endif -%}
+
+                      {% if duration != "" %}
+                        <span class="description description--large text--gray-50" data-clamp="1">
+                          Voraussichtliche Dauer: {{ duration }}
+                        </span>
+                      {% endif %}
+
+                      <span class="description description--large" data-clamp="1" data-clamp-md="3">{{ desc }}</span>
+
+                      {% if reason != "" %}
+                        <span class="description description--large text--gray-50" data-clamp="1" data-clamp-md="1">
+                          Grund: {{ reason }}
+                        </span>
+                      {% endif %}
+
+                      {% if t.time.start %}
+                        <div class="flex gap--small">
+                          <span class="label label--small">
+                            Seit {{ t.time.start | date: "%H:%M" }}
+                          </span>
+                        </div>
+                      {% endif %}
+
+                    </div>
+                  </div>
+
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+        {% endfor %}
+
+      </div>
+    </div>
+
+  {% else %}
+
+    <div class="flex flex--col flex--center flex--center-x gap">
+      <span class="value value--xxxlarge">✓</span>
+      <span class="label label--xlarge">Keine Störungen</span>
+      <span class="description description--large text--gray-50" data-clamp="1">
+        {{ monitored_lines | join: " · " }} fahren planmäßig
+      </span>
+    </div>
+
+  {% endif %}
+</div>
+
+<div class="title_bar">
+  <img
+    class="image image-dither image-stroke--base"
+    alt="Wiener Linien"
+    src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Wiener_Linien_Icon.svg/250px-Wiener_Linien_Icon.svg.png"
+  />
+  <span class="title">Wiener Linien-Störungen</span>
+  <span class="instance">Zuletzt aktualisiert: {{ message.serverTime | date: "%H:%M" }}</span>
+</div>

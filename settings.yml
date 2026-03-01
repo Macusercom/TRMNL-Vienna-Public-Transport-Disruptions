@@ -1,0 +1,26 @@
+---
+strategy: polling
+no_screen_padding: 'no'
+dark_mode: 'no'
+static_data: ''
+polling_verb: get
+polling_url: https://www.wienerlinien.at/ogd_realtime/trafficInfoList?relatedLine={{ wl_lines }}
+polling_headers: accept=application/json&content-type=application/json
+polling_body: "{ }"
+id: 250757
+custom_fields:
+- keyname: about
+  name: About This Plugin
+  category: travel
+  field_type: author_bio
+  description: Public Transport Disruptions for Vienna (Wiener Linien) provided by the Wiener Linien API. Image loaded from wikipedia.org
+  github_url: https://github.com/macusercom/
+- keyname: wl_lines
+  field_type: multi_string
+  name: Wiener Linien Public Transport Lines
+  description: Enter one or more IDs
+  placeholder: U1, U4, 49, 62, 8A, S3,...
+  help_text: One public transport line per field
+  github_url: http://github.com/macusercom/
+name: Vienna Public Transport Disruptions
+refresh_interval: 60
