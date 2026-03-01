@@ -8,4 +8,5 @@ A TRMNL plug-in to check for Vienna public transport disruptions by fetching htt
 
 ## Credits
 Data provided by Wiener Linien
+
 Image loaded via wikipedia.org
