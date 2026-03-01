@@ -1,6 +1,7 @@
+<img src="icon.png" alt="icon" height="100">
+
 # TRMNL Vienna Public Transport Disruptions
 
-## Images
 ![Screenshot](images/image1.png)
 ![Screenshot](images/image2.png)
 
