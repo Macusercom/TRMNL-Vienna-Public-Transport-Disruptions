@@ -11,5 +11,5 @@ A TRMNL plug-in to check for Vienna public transport disruptions by fetching htt
 </a>
 
 ## Credits
-Data provided by Wiener Linien  
-Image loaded via wikipedia.org
+Data provided by <a href="https://www.wienerlinien.at/open-data">Wiener Linien</a>  
+Image loaded via <a href="https://www.wikipedia.org/">Wikipedia.org</a>
