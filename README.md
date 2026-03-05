@@ -2,8 +2,9 @@
 
 # TRMNL Vienna Public Transport Disruptions
 
-![Screenshot](images/image1.png)
-![Screenshot](images/image2.png)
+
+  <img src="images/image1.png" width="500">  <img src="images/image2.png" width="500">
+
 
 A TRMNL plug-in to check for Vienna public transport disruptions by fetching https://www.wienerlinien.at/ogd_realtime/trafficInfoList?relatedLine using the added public transport lines.
 
