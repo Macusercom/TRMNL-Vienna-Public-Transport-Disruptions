@@ -21,10 +21,10 @@
                       <div class="flex gap--small flex--left flex--center-y">
                         {% for line in t.relatedLines %}
                           {% if monitored_lines contains line %}
-                            <span class="label label--large label--inverted">{{ line }}</span>
+                            <span class="label label--large lg:label--xlarge label--inverted">{{ line }}</span>
                           {% endif %}
                         {% endfor %}
-                        <span class="title title--large" data-clamp="1">{{ t.title | split: ": " | last }}</span>
+                        <span class="title title--large lg:title--xxlarge"  data-clamp="1">{{ t.title | split: ": " | last }}</span>
                       </div>
 
                       {% assign raw = t.description | replace: "Grund :", "Grund:" | strip %}
@@ -56,22 +56,22 @@
                       {%- endif -%}
 
                       {% if duration != "" %}
-                        <span class="description description--large text--gray-50" data-clamp="1">
+                        <span class="description description--large lg:description--xlarge text--gray-50" data-clamp="1">
                           Voraussichtliche Dauer: {{ duration }}
                         </span>
                       {% endif %}
 
-                      <span class="description description--large" data-clamp="1" data-clamp-md="3">{{ desc }}</span>
+                      <span class="description description--large lg:description--xlarge" data-clamp="1" data-clamp-md="3">{{ desc }}</span>
 
                       {% if reason != "" %}
-                        <span class="description description--large text--gray-50" data-clamp="2" data-clamp-md="2">
+                        <span class="description description--large lg:description--xlarge text--gray-50" data-clamp="2" data-clamp-md="2">
                           Grund: {{ reason }}
                         </span>
                       {% endif %}
 
                       {% if t.time.start %}
                         <div class="flex gap--small">
-                          <span class="label label--small">
+                          <span class="label label--small lg:label--base">
                             Seit {{ t.time.start | date: "%H:%M" }}
                           </span>
                         </div>
