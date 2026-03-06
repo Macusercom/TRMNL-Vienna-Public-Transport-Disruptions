@@ -4,7 +4,7 @@ no_screen_padding: 'no'
 dark_mode: 'no'
 static_data: ''
 polling_verb: get
-polling_url: https://www.wienerlinien.at/ogd_realtime/trafficInfoList?relatedLine={{ wl_lines }}
+polling_url: https://www.wienerlinien.at/ogd_realtime/trafficInfoList?relatedLine={{ wl_lines }}&relatedStop={{ wl_stop }}
 polling_headers: accept=application/json&content-type=application/json
 polling_body: "{ }"
 id: 250757
@@ -21,5 +21,11 @@ custom_fields:
   description: Enter one or more IDs
   placeholder: U1, U4, 49, 62, 8A, S3,...
   help_text: One public transport line per field
+- keyname: wl_stop
+  field_type: multi_string
+  name: Stop IDs (optional)
+  description: Filter disruptions by a specific stop. Find your Stop ID at <a href="https://till.mabe.at/rbl/" target="_blank">till.mabe.at/rbl/</a>
+  placeholder: 4118
+  optional: true
 name: Vienna Public Transport Disruptions
 refresh_interval: 60
