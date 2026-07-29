@@ -67,7 +67,8 @@
                         {% assign desc     = desc | split: "Voraussichtliche Dauer:" | first | strip %}
                       {%- endif -%}
 
-                      {%- if desc | slice: 0, 5 == "Linie" and desc contains ":" -%}
+                      {%- assign desc_head = desc | slice: 0, 5 -%}
+                      {%- if desc_head == "Linie" and desc contains ":" -%}
                         {% assign parts = desc | split: ":" %}
                         {% capture rest %}{% for p in parts %}{% if forloop.index0 > 0 %}{% if forloop.index0 > 1 %}:{% endif %}{{ p }}{% endif %}{% endfor %}{% endcapture %}
                         {% assign desc = rest | strip %}
@@ -114,7 +115,7 @@
     <div class="flex flex--col flex--center flex--center-x gap">
       <span class="value value--xxlarge lg:value--mega">✓</span>
       <span class="label label--xlarge lg:label--xxlarge">Keine Störungen</span>
-      <span class="description description--large lg:description--xlarge text--gray-50" data-clamp="2">
+      <span class="description description--large lg:description--xlarge text--gray-50 text--center" data-clamp="2">
         {{ monitored_lines | join: " · " }} fahren planmäßig
       </span>
     </div>
