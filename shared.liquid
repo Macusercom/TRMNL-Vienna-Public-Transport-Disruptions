@@ -1,21 +1,75 @@
 {% assign wl = trmnl.plugin_settings.custom_fields_values.wl_lines | default: "" %}
 {% assign monitored_lines = wl | remove: " " | split: "," %}
 
+{% assign wl_ex = trmnl.plugin_settings.custom_fields_values.wl_exclude | default: "" | downcase %}
+{% assign excluded_keywords = wl_ex | split: "," %}
+
+{% assign max_age_days = trmnl.plugin_settings.custom_fields_values.wl_max_age | default: 0 | times: 1 %}
+{% assign clock = message.serverTime | default: "now" %}
+{% assign now_epoch = clock | date: "%s" | times: 1 %}
+
+{% assign sort_mode = trmnl.plugin_settings.custom_fields_values.wl_sort | default: "time" %}
+
+{% assign compact_mode = trmnl.plugin_settings.custom_fields_values.wl_compact | default: "off" %}
+{% if compact_mode == true or compact_mode == "true" %}{% assign compact_mode = "all" %}{% endif %}
+{% assign compact = false %}
+
 {% capture keys -%}
 {%- for t in data.trafficInfos -%}
   {%- if t.status == "active" -%}
-    {%- if t.time and t.time.start -%}{{ t.time.start }}{%- else -%}0000-00-00T00:00:00.000+0000{%- endif -%}|{{ t.name }}||
+    {%- capture is_hidden -%}
+      {%- assign haystack = t.title | append: " " | append: t.description | downcase -%}
+      {%- for w in excluded_keywords -%}
+        {%- assign kw = w | strip -%}
+        {%- if kw != "" and haystack contains kw -%}1{%- endif -%}
+      {%- endfor -%}
+      {%- if max_age_days > 0 and t.time.start -%}
+        {%- assign start_epoch = t.time.start | date: "%s" | times: 1 -%}
+        {%- assign age_days = now_epoch | minus: start_epoch | divided_by: 86400 -%}
+        {%- if age_days > max_age_days -%}1{%- endif -%}
+      {%- endif -%}
+    {%- endcapture -%}
+    {%- unless is_hidden contains "1" -%}
+      {%- if sort_mode == "lines" -%}
+        {%- assign line_rank = 99 -%}
+        {%- for line in t.relatedLines -%}
+          {%- for ml in monitored_lines -%}
+            {%- if ml == line and forloop.index0 < line_rank -%}{%- assign line_rank = forloop.index0 -%}{%- endif -%}
+          {%- endfor -%}
+        {%- endfor -%}
+        {%- assign sort_epoch = 0 -%}
+        {%- if t.time.start -%}{%- assign sort_epoch = t.time.start | date: "%s" | times: 1 -%}{%- endif -%}
+        {%- assign inv_epoch = 9999999999 | minus: sort_epoch -%}
+        {%- if line_rank < 10 -%}0{%- endif -%}{{ line_rank }}|{{ inv_epoch }}|{{ t.name }}||
+      {%- else -%}
+        {%- if t.time and t.time.start -%}{{ t.time.start }}{%- else -%}0000-00-00T00:00:00.000+0000{%- endif -%}|{{ t.name }}||
+      {%- endif -%}
+    {%- endunless -%}
   {%- endif -%}
 {%- endfor -%}
 {%- endcapture %}
-{%- assign keys = keys | split: "||" | sort | reverse -%}
+{%- if sort_mode == "lines" -%}{%- assign keys = keys | split: "||" | sort -%}{%- else -%}{%- assign keys = keys | split: "||" | sort | reverse -%}{%- endif -%}
 
 {% capture any_flag -%}
 {%- for t in data.trafficInfos -%}
   {%- if t.status == "active" -%}
-    {%- for line in t.relatedLines -%}
-      {%- if monitored_lines contains line -%}1{%- endif -%}
-    {%- endfor -%}
+    {%- capture is_hidden -%}
+      {%- assign haystack = t.title | append: " " | append: t.description | downcase -%}
+      {%- for w in excluded_keywords -%}
+        {%- assign kw = w | strip -%}
+        {%- if kw != "" and haystack contains kw -%}1{%- endif -%}
+      {%- endfor -%}
+      {%- if max_age_days > 0 and t.time.start -%}
+        {%- assign start_epoch = t.time.start | date: "%s" | times: 1 -%}
+        {%- assign age_days = now_epoch | minus: start_epoch | divided_by: 86400 -%}
+        {%- if age_days > max_age_days -%}1{%- endif -%}
+      {%- endif -%}
+    {%- endcapture -%}
+    {%- unless is_hidden contains "1" -%}
+      {%- for line in t.relatedLines -%}
+        {%- if monitored_lines contains line -%}1{%- endif -%}
+      {%- endfor -%}
+    {%- endunless -%}
   {%- endif -%}
 {%- endfor -%}
 {%- endcapture %}

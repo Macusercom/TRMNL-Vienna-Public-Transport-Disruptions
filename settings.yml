@@ -25,7 +25,40 @@ custom_fields:
   field_type: multi_string
   name: Stop IDs (optional)
   description: Filter disruptions by a specific stop. Find your Stop ID at <a href="https://till.mabe.at/rbl/" target="_blank">till.mabe.at/rbl/</a>
-  placeholder: 4118
+  placeholder: 4117
   optional: true
+- keyname: wl_exclude
+  field_type: multi_string
+  name: Excluded Keywords (optional)
+  description: Hide disruptions whose title or description contains one of these words, e.g. Bauarbeiten
+  placeholder: Bauarbeiten
+  help_text: One keyword per field, case-insensitive
+  optional: true
+- keyname: wl_max_age
+  field_type: number
+  name: Maximum Age (days, optional)
+  description: Hide long-running disruptions that started more than this many days ago
+  placeholder: 8
+  min: 0
+  max: 365
+  help_text: Leave empty or enter 0 to show all disruptions
+  optional: true
+- keyname: wl_sort
+  field_type: select
+  name: Sort Order
+  description: Newest disruption first, or grouped by the order you entered your lines above
+  options:
+  - "Newest first": "time"
+  - "My line order": "lines"
+  default: "time"
+- keyname: wl_compact
+  field_type: select
+  name: Compact Mode
+  description: Show line, title and start time only — fits more disruptions on screen
+  options:
+  - "Off": "off"
+  - "Half and quadrant layouts only": "small"
+  - "All layouts": "all"
+  default: "off"
 name: Vienna Public Transport Disruptions
 refresh_interval: 60

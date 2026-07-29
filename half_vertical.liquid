@@ -1,3 +1,5 @@
+{% if compact_mode == "all" or compact_mode == "small" %}{% assign compact = true %}{% endif %}
+
 <div class="layout layout--col layout--stretch">
   {% if any_flag contains "1" %}
 
@@ -12,6 +14,21 @@
 
                 {% capture is_relevant %}{% for line in t.relatedLines %}{% if monitored_lines contains line %}1{% endif %}{% endfor %}{% endcapture %}
                 {% assign is_relevant = is_relevant | strip %}
+
+                {%- capture is_hidden -%}
+                  {%- assign haystack = t.title | append: " " | append: t.description | downcase -%}
+                  {%- for w in excluded_keywords -%}
+                    {%- assign kw = w | strip -%}
+                    {%- if kw != "" and haystack contains kw -%}1{%- endif -%}
+                  {%- endfor -%}
+                  {%- if max_age_days > 0 and t.time.start -%}
+                    {%- assign start_epoch = t.time.start | date: "%s" | times: 1 -%}
+                    {%- assign age_days = now_epoch | minus: start_epoch | divided_by: 86400 -%}
+                    {%- if age_days > max_age_days -%}1{%- endif -%}
+                  {%- endif -%}
+                {%- endcapture -%}
+                {%- if is_hidden contains "1" -%}{%- assign is_relevant = "" -%}{%- endif -%}
+
                 {% if is_relevant contains "1" %}
 
                   <div class="item item--emphasis-2">
@@ -27,6 +44,7 @@
                         <span class="title title--large lg:title--xxlarge"  data-clamp="1">{{ t.title | split: ": " | last }}</span>
                       </div>
 
+                      {% unless compact %}
                       {% assign raw = t.description | replace: "Grund :", "Grund:" | strip %}
 
                       {% assign reason = "" %}
@@ -68,6 +86,8 @@
                           Grund: {{ reason }}
                         </span>
                       {% endif %}
+
+                      {% endunless %}
 
                       {% if t.time.start %}
                         <div class="flex gap--small">
