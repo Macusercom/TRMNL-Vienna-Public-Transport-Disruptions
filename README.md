@@ -28,10 +28,13 @@ The templates live in `src/` and are deployed by the GitHub Actions workflow: ev
 For a local preview install [trmnlp](https://github.com/usetrmnl/trmnlp) and run:
 
 ```sh
+gem install trmnl_preview
 trmnlp serve   # http://localhost:4567
 ```
 
 Custom field values for the local server are preset in `.trmnlp.yml`, which is not uploaded to TRMNL. Note that trmnlp percent-encodes commas in the polling URL, which the Wiener Linien API reads as a single unknown line — preview one line at a time.
+
+The lint step tolerates exactly one finding: the Wiener Linien logo is embedded from Wikimedia, which answers 403 to requests from CI runners, so `trmnlp lint` always reports that image as unreachable. Any second finding fails the build.
 
 ## Credits
 Data provided by <a href="https://www.wienerlinien.at/open-data">Wiener Linien</a>  
