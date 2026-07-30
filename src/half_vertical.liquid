@@ -75,15 +75,18 @@
                       {%- endif -%}
 
                       {% if duration != "" %}
+                        <span class="description description--large lg:description--xlarge text--gray-50">
+                          Voraussichtliche Dauer:
+                        </span>
                         <span class="description description--large lg:description--xlarge text--gray-50" data-clamp="1">
-                          Voraussichtliche Dauer: {{ duration }}
+                          {{ duration }}
                         </span>
                       {% endif %}
 
-                      <span class="description description--large lg:description--xlarge" data-clamp="3" data-clamp-md="3">{{ desc }}</span>
+                      <span class="description description--large lg:description--xlarge" data-clamp="2" data-clamp-lg="3">{{ desc }}</span>
 
                       {% if reason != "" %}
-                        <span class="description description--large lg:description--xlarge text--gray-50" data-clamp="2" data-clamp-md="2">
+                        <span class="description description--large lg:description--xlarge text--gray-50" data-clamp="2" data-clamp-lg="2">
                           Grund: {{ reason }}
                         </span>
                       {% endif %}
