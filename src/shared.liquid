@@ -10,6 +10,15 @@
 
 {% assign sort_mode = trmnl.plugin_settings.custom_fields_values.wl_sort | default: "time" %}
 
+{% assign line_count = monitored_lines | size %}
+{% assign empty_title = "Keine Störungen" %}
+{% assign lines_label = monitored_lines | join: " · " %}
+{% comment %} Without configured lines there is nothing to report on, so the
+   empty state points at the settings instead of giving an all-clear. {% endcomment %}
+{% if line_count == 0 %}{% assign empty_title = "Keine Linien ausgewählt" %}{% assign lines_label = "Bitte Linien in den" %}{% assign runs_on_time = "Plugin-Einstellungen eintragen" %}
+{% elsif line_count == 1 %}{% assign runs_on_time = "fährt planmäßig" %}
+{% else %}{% assign runs_on_time = "fahren planmäßig" %}{% endif %}
+
 {% assign compact_mode = trmnl.plugin_settings.custom_fields_values.wl_compact | default: "off" %}
 {% if compact_mode == true or compact_mode == "true" %}{% assign compact_mode = "all" %}{% endif %}
 {% assign compact = false %}

@@ -113,10 +113,12 @@
   {% else %}
 
     <div class="flex flex--col flex--center flex--center-x gap">
-      <span class="value value--xxxlarge lg:value--peta">✓</span>
-      <span class="label label--xlarge lg:label--xxlarge">Keine Störungen</span>
+      {% if line_count > 0 %}
+        <span class="value value--xxxlarge lg:value--peta">✓</span>
+      {% endif %}
+      <span class="label label--xlarge lg:label--xxlarge">{{ empty_title }}</span>
       <span class="description description--large lg:description--xlarge text--gray-50 1bit:text--black text--center">
-        {{ monitored_lines | join: " · " }} fahren planmäßig
+        {{ lines_label }} {{ runs_on_time }}
       </span>
     </div>
 
