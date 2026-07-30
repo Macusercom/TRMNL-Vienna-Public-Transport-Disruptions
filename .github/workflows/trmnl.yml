@@ -11,7 +11,7 @@ jobs:
       - uses: actions/checkout@v6
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: "4.0"
+          ruby-version: "3.4"
       - run: gem install trmnl_preview
       # Wikimedia answers 403 to requests from CI runners, so trmnlp's <img> src
       # check always fails here. Tolerate that one finding, fail on anything else.
@@ -37,7 +37,7 @@ jobs:
       - uses: actions/checkout@v6
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: "4.0"
+          ruby-version: "3.4"
       - run: gem install trmnl_preview
       - run: trmnlp push --force
         env:
