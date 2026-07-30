@@ -74,3 +74,10 @@
 {%- endfor -%}
 {%- endcapture %}
 {% assign any_flag = any_flag | strip %}
+
+<style>
+  /* 1-bit screens have no grey. Secondary lines are set in black and underlined
+     instead; the framework's label--underline needs .label and draws a single
+     full-width rule, which breaks on wrapped text. */
+  .screen--1bit .wl-underline { text-decoration: underline; text-underline-offset: 2px; }
+</style>
