@@ -1,0 +1,16 @@
+---
+# Local dev-server config — not uploaded to TRMNL
+watch:
+  - src
+  - .trmnlp.yml
+
+time_zone: Europe/Vienna
+
+# Preset values so every option can be tried locally without typing them in TRMNL
+custom_fields:
+  wl_lines: "U1, U2, U3, U4, U6"
+  wl_stop: ""
+  wl_exclude: ""
+  wl_max_age: ""
+  wl_sort: "time"
+  wl_compact: "off"
