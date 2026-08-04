@@ -85,14 +85,21 @@
 {% assign any_flag = any_flag | strip %}
 
 <style>
-  /* The framework paints text--gray-50 with a dither image and `color: transparent`.
-     That image only exists for 1-bit and grayscale palettes; on colour palettes the
-     text disappears entirely. The colour is set explicitly here instead. The .trmnl
-     prefix matches the framework's own specificity so these rules win.
-     Line badges need no rule — they must simply not carry the base `label` class,
-     because `.screen--2bit .item .content .label` overrides label--inverted. */
-  .trmnl .wl-muted { color: #6B6B6B; }
-  .trmnl .screen--1bit .wl-muted { color: #000000; }
+  /* Secondary lines. The framework's text--gray-50 paints with a dither image and
+     `color: transparent`; that image only exists for 1-bit and grayscale palettes,
+     so on colour palettes the text disappears entirely. The colour is set here
+     instead.
+
+     !important is deliberate. The framework ships rules like
+     `.trmnl .screen--2bit .item .content .description` — five classes deep, and
+     3.2.0 keeps adding them. Matching that specificity would only hold until the
+     next release adds one class more.
+
+     Line badges need no rule at all: they must simply not carry the base `label`
+     class, because `.screen--2bit .item .content .label` overrides label--inverted
+     and leaves them invisible. */
+  .trmnl .wl-muted { color: #6B6B6B !important; }
+  .trmnl .screen--1bit .wl-muted { color: #000000 !important; }
 
   /* 1-bit screens have no grey, so secondary lines are underlined instead. The
      framework's label--underline needs .label and draws a single full-width rule,
