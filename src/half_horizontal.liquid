@@ -38,7 +38,7 @@
                       <div class="flex gap--small flex--left flex--center-y">
                         {% for line in t.relatedLines %}
                           {% if monitored_lines contains line %}
-                            <span class="label label--large label--inverted wl-badge">{{ line }}</span>
+                            <span class="label--large label--inverted">{{ line }}</span>
                           {% endif %}
                         {% endfor %}
                         <span class="title title--large lg:title--xlarge"  data-clamp="1">{{ t.title | split: ": " | last }}</span>
