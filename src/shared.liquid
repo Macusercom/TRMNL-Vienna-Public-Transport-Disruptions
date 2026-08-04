@@ -85,8 +85,17 @@
 {% assign any_flag = any_flag | strip %}
 
 <style>
-  /* 1-bit screens have no grey. Secondary lines are set in black and underlined
-     instead; the framework's label--underline needs .label and draws a single
-     full-width rule, which breaks on wrapped text. */
+  /* The framework paints text--gray-50 and label--inverted with dither images and
+     `color: transparent`. Those images only exist for 1-bit and grayscale palettes;
+     on colour palettes the text disappears and the badge loses its background.
+     Both are set explicitly here instead. The .trmnl prefix matches the framework's
+     own specificity so these rules win. */
+  .trmnl .wl-muted { color: #6B6B6B; }
+  .trmnl .screen--1bit .wl-muted { color: #000000; }
+  .trmnl .wl-badge { background-color: #000000; color: #FFFFFF; }
+
+  /* 1-bit screens have no grey, so secondary lines are underlined instead. The
+     framework's label--underline needs .label and draws a single full-width rule,
+     which breaks on wrapped text. */
   .screen--1bit .wl-underline { text-decoration: underline; text-underline-offset: 2px; }
 </style>

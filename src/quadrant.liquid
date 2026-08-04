@@ -38,7 +38,7 @@
                       <div class="flex gap--small flex--left flex--center-y">
                         {% for line in t.relatedLines %}
                           {% if monitored_lines contains line %}
-                            <span class="label label--large lg:label--xlarge label--inverted">{{ line }}</span>
+                            <span class="label label--large lg:label--xlarge label--inverted wl-badge">{{ line }}</span>
                           {% endif %}
                         {% endfor %}
                         <span class="title title--large lg:title--xxlarge"  data-clamp="1">{{ t.title | split: ": " | last }}</span>
@@ -61,10 +61,10 @@
                       {%- endif -%}
 
                       {% if duration != "" %}
-                        <span class="description description--base lg:description--large text--gray-50 1bit:text--black">
+                        <span class="description description--base lg:description--large wl-muted">
                           Voraussichtliche Dauer:
                         </span>
-                        <span class="description description--base lg:description--large text--gray-50 1bit:text--black wl-underline" data-clamp="2">
+                        <span class="description description--base lg:description--large wl-muted wl-underline" data-clamp="2">
                           {{ duration }}
                         </span>
                       {% endif %}
@@ -91,10 +91,10 @@
       {% endif %}
       <span class="label label--large lg:label--xxlarge">{{ empty_title }}</span>
       <div class="flex flex--col">
-        <span class="description description--large lg:description--xlarge text--gray-50 1bit:text--black text--center">
+        <span class="description description--large lg:description--xlarge wl-muted text--center">
           {{ lines_label }}
         </span>
-        <span class="description description--large lg:description--xlarge text--gray-50 1bit:text--black text--center">
+        <span class="description description--large lg:description--xlarge wl-muted text--center">
           {{ runs_on_time }}
         </span>
       </div>

@@ -38,7 +38,7 @@
                       <div class="flex gap--small flex--left flex--center-y">
                         {% for line in t.relatedLines %}
                           {% if monitored_lines contains line %}
-                            <span class="label label--large label--inverted">{{ line }}</span>
+                            <span class="label label--large label--inverted wl-badge">{{ line }}</span>
                           {% endif %}
                         {% endfor %}
                         <span class="title title--large lg:title--xlarge"  data-clamp="1">{{ t.title | split: ": " | last }}</span>
@@ -75,7 +75,7 @@
                       {%- endif -%}
 
                       {% if duration != "" %}
-                        <span class="description description--large text--gray-50 1bit:text--black wl-underline" data-clamp="1">
+                        <span class="description description--large wl-muted wl-underline" data-clamp="1">
                           Voraussichtliche Dauer: {{ duration }}
                         </span>
                       {% endif %}
@@ -83,7 +83,7 @@
                       <span class="description description--large" data-clamp="2" data-clamp-lg="3">{{ desc }}</span>
 
                       {% if reason != "" %}
-                        <span class="description description--large text--gray-50 1bit:text--black wl-underline" data-clamp="2" data-clamp-lg="2">
+                        <span class="description description--large wl-muted wl-underline" data-clamp="2" data-clamp-lg="2">
                           Grund: {{ reason }}
                         </span>
                       {% endif %}
@@ -117,7 +117,7 @@
         <span class="value value--xlarge lg:value--giga">✓</span>
       {% endif %}
       <span class="label label--xlarge">{{ empty_title }}</span>
-      <span class="description description--large text--gray-50 1bit:text--black text--center">
+      <span class="description description--large wl-muted text--center">
         {{ lines_label }} {{ runs_on_time }}
       </span>
     </div>

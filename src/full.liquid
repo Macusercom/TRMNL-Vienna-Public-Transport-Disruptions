@@ -38,7 +38,7 @@
                       <div class="flex gap--small flex--left flex--center-y">
                         {% for line in t.relatedLines %}
                           {% if monitored_lines contains line %}
-                            <span class="label label--large lg:label--xlarge label--inverted">{{ line }}</span>
+                            <span class="label label--large lg:label--xlarge label--inverted wl-badge">{{ line }}</span>
                           {% endif %}
                         {% endfor %}
                         <span class="title title--large lg:title--xxlarge"  data-clamp="1">{{ t.title | split: ": " | last }}</span>
@@ -75,7 +75,7 @@
                       {%- endif -%}
 
                       {% if duration != "" %}
-                        <span class="description description--large lg:description--xlarge text--gray-50 1bit:text--black wl-underline" data-clamp="2">
+                        <span class="description description--large lg:description--xlarge wl-muted wl-underline" data-clamp="2">
                           Voraussichtliche Dauer: {{ duration }}
                         </span>
                       {% endif %}
@@ -83,7 +83,7 @@
                       <span class="description description--large lg:description--xlarge" data-clamp="2" data-clamp-lg="3">{{ desc }}</span>
 
                       {% if reason != "" %}
-                        <span class="description description--large lg:description--xlarge text--gray-50 1bit:text--black wl-underline" data-clamp="1" data-clamp-lg="1">
+                        <span class="description description--large lg:description--xlarge wl-muted wl-underline" data-clamp="1" data-clamp-lg="1">
                           Grund: {{ reason }}
                         </span>
                       {% endif %}
@@ -117,7 +117,7 @@
         <span class="value value--xxxlarge lg:value--peta">✓</span>
       {% endif %}
       <span class="label label--xlarge lg:label--xxlarge">{{ empty_title }}</span>
-      <span class="description description--large lg:description--xlarge text--gray-50 1bit:text--black text--center">
+      <span class="description description--large lg:description--xlarge wl-muted text--center">
         {{ lines_label }} {{ runs_on_time }}
       </span>
     </div>
