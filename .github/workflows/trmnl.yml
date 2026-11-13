@@ -29,9 +29,26 @@ jobs:
           fi
           exit 1
 
+  # tests/plugin_spec.rb: every view on TRMNL OG and TRMNL X, every select option and a failing
+  # API, in the trmnlp image (Firefox included). Pin the tag to keep runs repeatable.
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: trmnlp test
+        run: >
+          docker run --rm -e CI=true -e GITHUB_STEP_SUMMARY=/summary.md
+          -v "$PWD":/plugin -v "$GITHUB_STEP_SUMMARY":/summary.md trmnl/trmnlp:v0.34.1
+          test --report report
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trmnlp-report
+          path: report
+
   push:
-    needs: lint
-    if: github.ref == 'refs/heads/main'
+    needs: [lint, test]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6

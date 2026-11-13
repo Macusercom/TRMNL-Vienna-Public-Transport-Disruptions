@@ -24,7 +24,7 @@ custom_fields:
 - keyname: wl_stop
   field_type: multi_string
   name: Stop IDs (optional)
-  description: Filter disruptions by a specific stop. Find your Stop ID at <a href="https://till.mabe.at/rbl/" target="_blank">till.mabe.at/rbl/</a>
+  description: Filter disruptions by a specific stop. Find your Stop ID at <a href="https://till.mabe.at/rbl/" target="_blank" class="underline">till.mabe.at/rbl/</a>
   placeholder: 4117
   optional: true
 - keyname: wl_exclude
@@ -61,4 +61,9 @@ custom_fields:
   - "All layouts": "all"
   default: "off"
 name: Vienna Public Transport Disruptions
+description: Wiener Linien disruptions
+recipe_overview: |
+  See at a glance whether your Vienna public transport lines are running normally. This recipe polls the official Wiener Linien real-time Open Data API and lists every active disruption on the lines you choose (U-Bahn, tram or bus), with the affected line, a short title, the expected duration, the reason and the time it started. When everything runs on schedule, a large check mark confirms it.
+
+  Optional settings narrow the list to specific stops, hide disruptions by keyword (for example planned construction work), drop long-running disruptions older than a chosen number of days, sort by newest first or by your own line order, and switch to a compact view that fits more entries on the smaller layouts. Disruption texts are shown in German, exactly as Wiener Linien publishes them.
 refresh_interval: 60
