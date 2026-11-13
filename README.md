@@ -23,7 +23,15 @@ A TRMNL plug-in to check for Vienna public transport disruptions by fetching htt
 
 ## Development
 
-The templates live in `src/` and are deployed by the GitHub Actions workflow: every push to `main` runs `trmnlp lint` and then `trmnlp push`, which updates the plugin referenced by the `id` in `src/settings.yml`. Edit the plugin here rather than in the TRMNL web editor, otherwise changes are overwritten on the next push.
+The templates live in `src/` and are deployed by the GitHub Actions workflow: every push to `main` runs `trmnlp lint` and `trmnlp test`, and only when both pass `trmnlp push`, which updates the plugin referenced by the `id` in `src/settings.yml`. Edit the plugin here rather than in the TRMNL web editor, otherwise changes are overwritten on the next push.
+
+`tests/plugin_spec.rb` renders every view on TRMNL OG (1-bit and 2-bit, landscape and portrait) and TRMNL X (landscape and portrait), with every select option and with a failing API, against the sample answer in `tests/fixtures/traffic_info.json`. It needs Firefox, so the simplest way to run it is the trmnlp Docker image:
+
+```sh
+docker run --rm -v "$PWD":/plugin trmnl/trmnlp:v0.34.1 test --report Debug/report
+```
+
+The report in `Debug/report/` shows every screen the tests drew; CI uploads it as the `trmnlp-report` artifact.
 
 For a local preview install [trmnlp](https://github.com/usetrmnl/trmnlp) and run:
 
